@@ -1,10 +1,9 @@
 FROM ubuntu
 
-RUN apt-get update -y
-RUN apt-get install -y proftpd
+RUN apt-get update -y && apt-get install -y sudo proftpd
 
-ADD launch /launch
-ADD proftpd.conf /etc/proftpd/proftpd.conf
+COPY launch /launch
+COPY proftpd.conf /etc/proftpd/proftpd.conf 
 RUN sudo chown root:root /etc/proftpd/proftpd.conf
 RUN mkdir /ftp
 
