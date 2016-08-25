@@ -12,11 +12,12 @@ OVERRIDEGID=$MOUNTGID
 
 if [ -n "$PROFTPD_UID" ]; then
     OVERRIDEUID=$PROFTPD_UID
+    OVERRIDEGID=$PROFTPD_UID
 fi
 
 #Try using ftpasswd instead of other yuckness
 echo $PASSWORD | ftpasswd --passwd --file=/etc/proftpd/passwd --name=$USERNAME --uid=$OVERRIDEUID --home=/ftp \
-    --shell=/bin/false --stdin
+    --shell=/bin/sh --stdin
 
 #if ! id "$USERNAME" >/dev/null 2>&1; then
 #    useradd --shell /bin/sh -u $OVERRIDEUID --create-home --password $PASSWORD $USERNAME 2> /dev/null
