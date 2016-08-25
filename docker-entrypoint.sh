@@ -16,7 +16,7 @@ if [ -n "$PROFTPD_UID" ]; then
 fi
 
 #Try using ftpasswd instead of other yuckness
-echo "$PASSWORD" | ftpasswd --passwd --file=/etc/proftpd/passwd --name=$USERNAME --uid=$OVERRIDEUID --gid=$OVERRIDEGID --home=/ftp \
+echo $PASSWORD | ftpasswd --passwd --file=/etc/proftpd/passwd --name=$USERNAME --uid=$OVERRIDEUID --gid=$OVERRIDEGID --home=/ftp \
     --shell=/bin/sh --stdin
 
 #if ! id "$USERNAME" >/dev/null 2>&1; then
