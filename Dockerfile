@@ -2,7 +2,7 @@ FROM ubuntu
 
 RUN apt-get update -y && apt-get install -y sudo proftpd
 
-COPY docker-entrypoint /docker-entrypoint
+COPY docker-entrypoint.sh /docker-entrypoint.sh
 COPY proftpd.conf /etc/proftpd/proftpd.conf 
 RUN sudo chown root:root /etc/proftpd/proftpd.conf
 RUN mkdir /ftp
