@@ -29,7 +29,7 @@ echo $PASSWORD | ftpasswd --passwd --file=/etc/proftpd/passwd --name=$USERNAME -
 
 #Hopefully shouldnt need this now
 if [ -n "$PROFTPD_CHOWN" ]; then
-    chown -R $USERNAME:$USERNAME /ftp
+    chown -R $OVERRIDEUID:$OVERRIDEGID /ftp
 fi
 
 exec proftpd --nodaemon
