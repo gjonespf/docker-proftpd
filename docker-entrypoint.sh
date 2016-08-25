@@ -1,7 +1,7 @@
 #!/bin/bash -e
 
 echo Setting credentials to $USERNAME:$PASSWORD
-PASSWORD=$(perl -e 'print crypt($ARGV[0], "password")' $PASSWORD)
+ENCPASSWORD=$(perl -e 'print crypt($ARGV[0], "password")' $PASSWORD)
 
 #Take current UID/GID
 MOUNTUID=$(stat -c '%u' "/ftp")
@@ -20,7 +20,7 @@ echo "$PASSWORD" | ftpasswd --passwd --file=/etc/proftpd/passwd --name=$USERNAME
     --shell=/bin/sh --stdin
 
 #if ! id "$USERNAME" >/dev/null 2>&1; then
-#    useradd --shell /bin/sh -u $OVERRIDEUID --create-home --password $PASSWORD $USERNAME 2> /dev/null
+#    useradd --shell /bin/sh -u $OVERRIDEUID --create-home --password $ENCPASSWORD $USERNAME 2> /dev/null
 #fi
 
 #Make sure user has same UID as mount point (note this won't work if not using a custom ID)
