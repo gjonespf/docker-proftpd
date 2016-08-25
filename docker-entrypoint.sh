@@ -14,14 +14,20 @@ if [ -n "$PROFTPD_UID" ]; then
     OVERRIDEUID=$PROFTPD_UID
 fi
 
-if ! id "$USERNAME" >/dev/null 2>&1; then
-    useradd --shell /bin/sh -u $OVERRIDEUID --create-home --password $PASSWORD $USERNAME
-fi
+mkdir /etc/ftpd
 
-#Make sure user has same UID as mount point
-usermod -u $OVERRIDEUID $USERNAME 2> /dev/null && {
-      groupmod -g $OVERRIDEGID $USERNAME 2> /dev/null || usermod -a -G $OVERRIDEGID $USERNAME
-    }
+#Try using ftpasswd instead of other yuckness
+echo $PASSWORD | ftpasswd --passwd --file=/etc/ftpd/passwd --name=$USERNAME --uid=$OVERRIDEUID --home=/ftp \
+    --shell=/bin/false --stdin
+
+#if ! id "$USERNAME" >/dev/null 2>&1; then
+#    useradd --shell /bin/sh -u $OVERRIDEUID --create-home --password $PASSWORD $USERNAME 2> /dev/null
+#fi
+
+#Make sure user has same UID as mount point (note this won't work if not using a custom ID)
+# usermod -u $OVERRIDEUID $USERNAME 2> /dev/null && {
+#       groupmod -g $OVERRIDEGID $USERNAME 2> /dev/null || usermod -a -G $OVERRIDEGID $USERNAME
+#     }
 
 #Hopefully shouldnt need this now
 if [ -n "$PROFTPD_CHOWN" ]; then
