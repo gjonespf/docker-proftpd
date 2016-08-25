@@ -14,10 +14,8 @@ if [ -n "$PROFTPD_UID" ]; then
     OVERRIDEUID=$PROFTPD_UID
 fi
 
-mkdir /etc/ftpd
-
 #Try using ftpasswd instead of other yuckness
-echo $PASSWORD | ftpasswd --passwd --file=/etc/ftpd/passwd --name=$USERNAME --uid=$OVERRIDEUID --home=/ftp \
+echo $PASSWORD | ftpasswd --passwd --file=/etc/proftpd/passwd --name=$USERNAME --uid=$OVERRIDEUID --home=/ftp \
     --shell=/bin/false --stdin
 
 #if ! id "$USERNAME" >/dev/null 2>&1; then
