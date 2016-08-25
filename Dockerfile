@@ -2,7 +2,7 @@ FROM ubuntu
 
 RUN apt-get update -y && apt-get install -y sudo proftpd
 
-COPY launch /launch
+COPY docker-entrypoint /docker-entrypoint
 COPY proftpd.conf /etc/proftpd/proftpd.conf 
 RUN sudo chown root:root /etc/proftpd/proftpd.conf
 RUN mkdir /ftp
@@ -30,4 +30,4 @@ ENV PROFTPD_DEFAULT_ADDR 0.0.0.0
 EXPOSE 21
 EXPOSE 20
 
-ENTRYPOINT /launch
+ENTRYPOINT /docker-entrypoint.sh
