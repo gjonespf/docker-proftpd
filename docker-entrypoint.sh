@@ -7,12 +7,23 @@ PASSWORD=$(perl -e 'print crypt($ARGV[0], "password")' $PASSWORD)
 MOUNTUID=$(stat -c '%u' "/ftp")
 MOUNTGID=$(stat -c '%g' "/ftp")
 
+OVERRIDEUID=$MOUNTUID
+OVERRIDEGID=$MOUNTGID
+
 if [ -n "$PROFTPD_UID" ]; then
-    useradd --shell /bin/sh -u $PROFTPD_UID --create-home --password $PASSWORD $USERNAME
-else
-    useradd --shell /bin/sh -u $MOUNTUID --create-home --password $PASSWORD $USERNAME
+    OVERRIDEUID=$PROFTPD_UID
 fi
 
+if ! id "$USERNAME" >/dev/null 2>&1; then
+    useradd --shell /bin/sh -u $OVERRIDEUID --create-home --password $PASSWORD $USERNAME
+fi
+
+#Make sure user has same UID as mount point
+usermod -u $OVERRIDEUID $USERNAME 2> /dev/null && {
+      groupmod -g $OVERRIDEGID $USERNAME 2> /dev/null || usermod -a -G $OVERRIDEGID $USERNAME
+    }
+
+#Hopefully shouldnt need this now
 if [ -n "$PROFTPD_CHOWN" ]; then
     chown -R $USERNAME:$USERNAME /ftp
 fi
