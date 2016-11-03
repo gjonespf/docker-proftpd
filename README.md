@@ -12,3 +12,7 @@ Passive mode will require net=host on cmd / network_mode=host in compose to give
 Note: if you use boot2docker on Mac OSX, be sure to connect to the VM when testing like,
 
 `ftp -p $(boot2docker ip) 21`.
+
+And on dockerhub
+https://hub.docker.com/r/gavinjonespf/docker-proftpd/
+docker pull gavinjonespf/docker-proftpd

@@ -1,4 +1,4 @@
-FROM ubuntu
+FROM ubuntu:xenial
 
 RUN apt-get update -y && apt-get install -y proftpd curl
 

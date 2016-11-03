@@ -1,0 +1,27 @@
+version: '2'
+services:
+
+    ftp:
+        image: gavinjonespf/docker-proftpd:latest
+        build:
+            context: ..
+            dockerfile: Dockerfile
+        ports:
+            - "20:20"
+            - "21:21"
+            - "50000-50200:50000-50200"
+        restart: always
+        #TODO: Upper port range for passive
+        environment:
+            - USERNAME=test
+            - PASSWORD=test
+            - PROFTPD_SERVERNAME=test
+            - PROFTPD_PASSIVE_MIN=50000
+            - PROFTPD_PASSIVE_MAX=50200
+            - PROFTPD_DEFAULT_ADDR=0.0.0.0
+            - PROFTPD_ALLOWROOT=on
+            - PROFTPD_UID=333
+            - PROFTPD_CHOWN=true
+            - PROFTPD_HOMEDIR=/ftp/usedproductws
+            - PROFTPD_ALLOWOVERWRITE=on
+        network_mode: "host"    #Needed for PASV
