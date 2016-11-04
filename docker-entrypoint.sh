@@ -33,4 +33,4 @@ if [ -n "$PROFTPD_CHOWN" ]; then
     chown -R $OVERRIDEUID:$OVERRIDEGID /ftp
 fi
 
-exec proftpd --nodaemon
+exec proftpd --nodaemon $PROFTPD_ARGS
